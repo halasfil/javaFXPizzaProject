@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="395.0" prefWidth="494.0" spacing="10.0" style="-fx-background-color: orangered; -fx-border-color: black;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+   <children>
+      <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="PANEL LOGOWANIA" textFill="#fff100">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Separator prefWidth="200.0" />
+      <TextField fx:id="tfLogin" prefHeight="55.0" prefWidth="493.0" promptText="  podaj login ">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <VBox.margin>
+            <Insets left="50.0" right="50.0" top="25.0" />
+         </VBox.margin>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+      </TextField>
+      <PasswordField fx:id="pfPassword" prefHeight="54.0" prefWidth="392.0" promptText="podaj hasło">
+         <VBox.margin>
+            <Insets left="50.0" right="50.0" />
+         </VBox.margin>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </PasswordField>
+      <Label fx:id="lblInfo" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Login info" textFill="#08ff46" />
+      <Button alignment="CENTER" mnemonicParsing="false" onAction="#loginAction" prefHeight="25.0" prefWidth="562.0" style="-fx-background-color: yellow;" text="ZALOGUJ">
+         <VBox.margin>
+            <Insets left="100.0" right="100.0" />
+         </VBox.margin>
+      </Button>
+      <Button alignment="CENTER" mnemonicParsing="false" onAction="#registerAction" prefHeight="25.0" prefWidth="562.0" style="-fx-background-color: pink;" text="ZAREJESTRUJ">
+         <VBox.margin>
+            <Insets left="100.0" right="100.0" />
+         </VBox.margin>
+      </Button>
+   </children>
+</VBox>
