@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: orangered;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PizzaPortalController">
+   <children>
+      <MenuBar style="-fx-background-color: pink;">
+        <menus>
+          <Menu mnemonicParsing="false" text="Plik">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#logoutAction" text="Wyloguj" />
+                  <MenuItem mnemonicParsing="false" onAction="#exitAction" text="Wyjscie" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Label fx:id="lblLogin" text="zalogowano xxx">
+         <VBox.margin>
+            <Insets left="50.0" />
+         </VBox.margin>
+      </Label>
+      <TabPane prefHeight="524.0" prefWidth="724.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="tabMenu" text="MENU">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="546.0" prefWidth="794.0">
+                     <children>
+                        <TableView fx:id="tblPizza" layoutX="6.0" layoutY="34.0" onMouseClicked="#selectPizzaAction" prefHeight="420.0" prefWidth="788.0" style="-fx-background-color: darkred;">
+                          <columns>
+                            <TableColumn fx:id="tcName" prefWidth="107.0" text="Nazwa" />
+                              <TableColumn fx:id="tcIngredients" prefWidth="448.0" text="Składniki" />
+                              <TableColumn fx:id="tcDescription" prefWidth="88.0" text="Opis" />
+                            <TableColumn fx:id="tcPrize" prefWidth="91.0" text="Cena" />
+                              <TableColumn fx:id="tcQuantity" maxWidth="1000.0" minWidth="0.0" prefWidth="59.0" text="Wybór" />
+                          </columns>
+                        </TableView>
+                        <Button layoutX="517.0" layoutY="460.0" mnemonicParsing="false" onAction="#clearAction" style="-fx-background-color: pink;" text="Wyczyść" />
+                        <Label fx:id="lblSum" layoutX="27.0" layoutY="464.0" text="Do zapłaty: " textFill="#fff200" />
+                        <Button layoutX="669.0" layoutY="460.0" mnemonicParsing="false" onAction="#addToBasketAction" style="-fx-background-color: green;" text="Dodaj do koszyka" />
+                        <Label fx:id="lblPizzaDay" layoutX="139.0" layoutY="6.0" text="PIZZA DNIA" textFill="#fffa03" />
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Koszyk">
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                </content>
+            </Tab>
+          <Tab text="Edycja MENU">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</VBox>

@@ -1,5 +1,6 @@
 package utility;
 
+import model.PizzaList;
 import model.Role;
 import model.User;
 
@@ -11,23 +12,7 @@ import java.util.List;
 
 public class InMemoryDB {
 
+    public static List<User> users = new ArrayList<>();
+    public static List<PizzaList> pizzaLists = new ArrayList<>();
 
-    public static List<User> users = new ArrayList<>(
-            Arrays.asList(
-                    new User("m", "m",
-                            new HashSet<>(Arrays.asList(Role.ROLE_ADMIN, Role.ROLE_USER)),
-                            LocalDateTime.now(),
-                            true,
-                            3
-
-                    ),
-                    new User("k", "k",
-                            new HashSet<>(Arrays.asList(Role.ROLE_USER)),
-                            LocalDateTime.now(),
-                            true,
-                            3
-
-                    )
-            )
-    );
 }

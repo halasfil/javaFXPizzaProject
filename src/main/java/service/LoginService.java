@@ -1,8 +1,13 @@
 package service;
 
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import model.User;
 import utility.InMemoryDB;
 
+
+import java.io.IOException;
 import java.util.Optional;
 
 //klasa implementujaca logike biznesowa aplikacji
@@ -53,4 +58,33 @@ public class LoginService {
         return "Błędny login";
     }
 
+    public void login(TextField tfLogin, PasswordField pfPassword, Label lblInfo) {
+        Optional<User> userOpt = loginUser(tfLogin.getText(), pfPassword.getText());
+        if (userOpt.isPresent()) {
+            if (userOpt.get().isStatus()) {
+                try {
+                    lblInfo.setText("Zalogowano");
+                    WindowService windowService = new WindowService();
+                    //utworzenie okna pizzaportal
+                    windowService.createNewWindow("pizzaPortalView", "Pizza Portal;");
+                    //zamkniecie aktualnego okna
+                    windowService.closeWindow(lblInfo);
+                    clearLoginProbes(userOpt.get());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                lblInfo.setText("Konto jest zablokowane");
+            }
+        } else {
+            decrementingProbes(tfLogin.getText());
+            lblInfo.setText(getLoginProbes(tfLogin.getText()));
+            try {
+                FileService.updateUsers();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
 }
