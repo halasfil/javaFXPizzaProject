@@ -32,7 +32,10 @@ public class PizzaPortalService {
     public List<PizzaList> selectPizza(TableView tblPizza) {
         PizzaList selectedPizza = (PizzaList) tblPizza.getSelectionModel().getSelectedItem();
         if (selectedPizza != null) {
-            TextInputDialog dialog = new TextInputDialog(selectedPizza.getQuantity().toString());
+            TextInputDialog dialog = new TextInputDialog(
+                    //domyslna ilosc wprowadzana w TextImput
+                    selectedPizza.getQuantity() > 0 ? selectedPizza.getQuantity().toString() : "1"
+            );
             dialog.setTitle("Wybierz ilość");
             dialog.setHeaderText("Podaj ilość zamawianego produktu");
             dialog.setContentText("Aby zamówić określoną ilość produktu należy ją wprowadzić do pola tekstowego");

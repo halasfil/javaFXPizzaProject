@@ -2,6 +2,7 @@ package service;
 
 import model.Basket;
 import model.Role;
+import model.Status;
 import model.User;
 import utility.InMemoryDB;
 
@@ -10,11 +11,10 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 //logika biznesowa do obsługi plików
@@ -72,21 +72,54 @@ public class FileService {
     public static void updateBasket() throws IOException {
         FileWriter fileWriter = new FileWriter(new File(pathToBasktets));
 
-        for (Basket basket : InMemoryDB.baskets){
+        Locale locale = Locale.ENGLISH;
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);     //zmiana , na . w cenie
+        numberFormat.setMinimumFractionDigits(2);
+        numberFormat.setMaximumFractionDigits(2);                               //ustawienie 2 miejsc po przecinku ceny
+
+        for (Basket basket : InMemoryDB.baskets) {
             fileWriter.write(
-                    String.format("%s; %s; %.2f; %s",
+                    String.format("%s; %s; %s; %s\n",
                             basket.getUserLogin(),
-                            basket.getOrder(), // ??? formatowanie ???
-                            basket.getBasketAmount(),
-                            basket.getStatus()
+                            basket.getOrder().toString()
+                                    .replace("{", "")
+                                    .replace("}", ""),
+                            numberFormat.format(basket.getBasketAmount()),
+                            basket.getStatus().getStatusName()
                     ));      // przepisanie zamówień z listy baskets do pliku baskets.csv
         }
         fileWriter.close();
-
-
-        }
-
     }
+
+    //metoda pobierajaca zawartosc z pliku i wpisujaca do listy baskets
+    public static void selectBaskets() throws FileNotFoundException {
+        File file = new File(pathToBasktets);
+        Scanner scanner = new Scanner(file);
+        //odczyt zawartosci z baskets linijka po linijce
+
+        while (scanner.hasNext()) {
+            String[] line = scanner.nextLine().split("; ");
+
+            Map<String, Integer> order = new HashMap<>();
+            for (String element : line[1].split(", ")) {
+                String[] key_value = element.split("=");
+                order.put(key_value[0], Integer.valueOf(key_value[1]));
+            }
+
+            InMemoryDB.baskets.add(
+                    new Basket(
+                            line[0],
+                            order,
+                            Double.valueOf(line[2]),
+                            Arrays.stream(Status.values())
+                                    .filter(status -> status.getStatusName().equals(line[3]))
+                                    .findAny().get()
+                    )
+            );
+        }
+        scanner.close();
+    }
+}
 
 
 

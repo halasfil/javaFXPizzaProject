@@ -58,11 +58,14 @@ public class LoginService {
         return "Błędny login";
     }
 
+    public static User loggedUser;
     public void login(TextField tfLogin, PasswordField pfPassword, Label lblInfo) {
         Optional<User> userOpt = loginUser(tfLogin.getText(), pfPassword.getText());
         if (userOpt.isPresent()) {
             if (userOpt.get().isStatus()) {
                 try {
+                    //obiekt aktualnie zalogowanego uzytkownika
+                    loggedUser = userOpt.get();
                     lblInfo.setText("Zalogowano");
                     WindowService windowService = new WindowService();
                     //utworzenie okna pizzaportal

@@ -20,6 +20,7 @@ public class Main extends Application {
         FileService.selectUsers();                          //pobranie zawartości pliku i dodanie do listy
        // InMemoryDB.users.forEach(System.out::println);      //wypisanie listy users
        // FileService.updateUsers();
+        FileService.selectBaskets();
     }
 
 
