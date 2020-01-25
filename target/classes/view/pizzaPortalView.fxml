@@ -41,7 +41,7 @@
                             <TableColumn fx:id="tcName" prefWidth="107.0" text="Nazwa" />
                               <TableColumn fx:id="tcIngredients" prefWidth="448.0" text="Składniki" />
                               <TableColumn fx:id="tcDescription" prefWidth="88.0" text="Opis" />
-                            <TableColumn fx:id="tcPrize" prefWidth="91.0" text="Cena" />
+                            <TableColumn fx:id="tcPrice" prefWidth="91.0" text="Cena" />
                               <TableColumn fx:id="tcQuantity" maxWidth="1000.0" minWidth="0.0" prefWidth="59.0" text="Wybór" />
                           </columns>
                         </TableView>

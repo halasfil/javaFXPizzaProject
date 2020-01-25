@@ -1,5 +1,6 @@
 package service;
 
+import model.Basket;
 import model.Role;
 import model.User;
 import utility.InMemoryDB;
@@ -21,6 +22,10 @@ public class FileService {
 
     private static String pathToUsers =
             Paths.get("").toAbsolutePath().toString() + "\\src\\main\\resources\\file\\users.csv";
+
+    private static String pathToBasktets =
+            Paths.get("").toAbsolutePath().toString() + "\\src\\main\\resources\\file\\baskets.csv";
+
     private static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     //metoda pobierająca zawartość z pliku i wprowadzajaca ja do listy users
@@ -62,4 +67,26 @@ public class FileService {
         }
         fileWriter.close();
     }
-}
+
+    //metoda aktualizujaca zawartosc koszyka w oparciu o plik baskets.csv
+    public static void updateBasket() throws IOException {
+        FileWriter fileWriter = new FileWriter(new File(pathToBasktets));
+
+        for (Basket basket : InMemoryDB.baskets){
+            fileWriter.write(
+                    String.format("%s; %s; %.2f; %s",
+                            basket.getUserLogin(),
+                            basket.getOrder(), // ??? formatowanie ???
+                            basket.getBasketAmount(),
+                            basket.getStatus()
+                    ));      // przepisanie zamówień z listy baskets do pliku baskets.csv
+        }
+        fileWriter.close();
+
+
+        }
+
+    }
+
+
+

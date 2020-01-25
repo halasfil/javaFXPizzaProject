@@ -18,8 +18,8 @@ public class Main extends Application {
 
         //wczytanie/zaktualizowanie listy users z pliku csv
         FileService.selectUsers();                          //pobranie zawartości pliku i dodanie do listy
-        InMemoryDB.users.forEach(System.out::println);      //wypisanie listy users
-        FileService.updateUsers();
+       // InMemoryDB.users.forEach(System.out::println);      //wypisanie listy users
+       // FileService.updateUsers();
     }
 
 

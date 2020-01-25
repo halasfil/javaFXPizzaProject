@@ -10,7 +10,8 @@ public class PizzaList {
     private String name;
     private String ingredients;
     private String description;
-    private Double prize;
+    private Double price;
     private Integer quantity;
+
 
 }
