@@ -84,7 +84,7 @@ public class FileService {
                             basket.getOrder().toString()
                                     .replace("{", "")
                                     .replace("}", ""),
-                            numberFormat.format(basket.getBasketAmount()),
+                            numberFormat.format(basket.getBasketAmount()).replace(",", ""),
                             basket.getStatus().getStatusName()
                     ));      // przepisanie zamówień z listy baskets do pliku baskets.csv
         }

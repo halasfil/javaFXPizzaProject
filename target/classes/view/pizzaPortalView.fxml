@@ -9,6 +9,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -81,7 +82,7 @@
                      </children></AnchorPane>
                 </content>
             </Tab>
-          <Tab text="ZAMÓWIENIA">
+          <Tab fx:id="tabBasketStatus" text="ZAMÓWIENIA">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -90,22 +91,24 @@
                               <Font size="34.0" />
                            </font>
                         </Label>
-                        <TableView layoutX="31.0" layoutY="64.0" prefHeight="448.0" prefWidth="530.0">
+                        <TableView fx:id="tblOrders" layoutX="31.0" layoutY="64.0" onMouseClicked="#selectOrderAction" prefHeight="389.0" prefWidth="530.0">
                           <columns>
-                            <TableColumn prefWidth="116.0" text="login" />
-                            <TableColumn prefWidth="325.0" text="zamowienie" />
-                              <TableColumn prefWidth="88.0" text="status" />
+                            <TableColumn fx:id="tcLogin" prefWidth="116.0" text="login" />
+                            <TableColumn fx:id="tcOrder" prefWidth="325.0" text="zamowienie" />
+                              <TableColumn fx:id="tcOrderStatus" prefWidth="88.0" text="status" />
                           </columns>
                         </TableView>
-                        <ComboBox layoutX="602.0" layoutY="86.0" prefWidth="150.0" promptText="zmień status" />
-                        <Spinner layoutX="603.0" layoutY="124.0" />
+                        <ComboBox fx:id="cbStatus" disable="true" layoutX="602.0" layoutY="86.0" prefWidth="150.0" promptText="zmień status" />
+                        <Spinner fx:id="sTime" disable="true" layoutX="603.0" layoutY="124.0" />
                         <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="578.0" layoutY="301.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../img/pizza.gif" />
                            </image>
                         </ImageView>
-                        <CheckBox layoutX="603.0" layoutY="194.0" mnemonicParsing="false" text="tylko nowe zamówienia" />
-                        <CheckBox layoutX="602.0" layoutY="248.0" mnemonicParsing="false" text="tylko w realizacji" />
+                        <CheckBox fx:id="cNew" layoutX="350.0" layoutY="31.0" mnemonicParsing="false" onAction="#selectNewAction" text="tylko nowe zamówienia" />
+                        <CheckBox fx:id="cInProgress" layoutX="578.0" layoutY="31.0" mnemonicParsing="false" onAction="#selectInProcessAction" text="tylko w realizacji" />
+                        <Button fx:id="btnConfirmButton" disable="true" layoutX="620.0" layoutY="198.0" mnemonicParsing="false" onAction="#confirmStatusAction" prefHeight="57.0" prefWidth="117.0" style="-fx-background-color: lightgreen;" text="Potwierdź" />
+                        <ProgressBar fx:id="pBar" layoutX="29.0" layoutY="465.0" prefHeight="18.0" prefWidth="532.0" progress="0.0" />
                      </children></AnchorPane>
             </content>
           </Tab>
