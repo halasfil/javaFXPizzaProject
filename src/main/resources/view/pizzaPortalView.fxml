@@ -9,8 +9,6 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -99,7 +97,6 @@
                           </columns>
                         </TableView>
                         <ComboBox fx:id="cbStatus" disable="true" layoutX="602.0" layoutY="86.0" prefWidth="150.0" promptText="zmień status" />
-                        <Spinner fx:id="sTime" disable="true" layoutX="603.0" layoutY="124.0" />
                         <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="578.0" layoutY="301.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../img/pizza.gif" />
@@ -108,7 +105,6 @@
                         <CheckBox fx:id="cNew" layoutX="350.0" layoutY="31.0" mnemonicParsing="false" onAction="#selectNewAction" text="tylko nowe zamówienia" />
                         <CheckBox fx:id="cInProgress" layoutX="578.0" layoutY="31.0" mnemonicParsing="false" onAction="#selectInProcessAction" text="tylko w realizacji" />
                         <Button fx:id="btnConfirmButton" disable="true" layoutX="620.0" layoutY="198.0" mnemonicParsing="false" onAction="#confirmStatusAction" prefHeight="57.0" prefWidth="117.0" style="-fx-background-color: lightgreen;" text="Potwierdź" />
-                        <ProgressBar fx:id="pBar" layoutX="29.0" layoutY="465.0" prefHeight="18.0" prefWidth="532.0" progress="0.0" />
                      </children></AnchorPane>
             </content>
           </Tab>

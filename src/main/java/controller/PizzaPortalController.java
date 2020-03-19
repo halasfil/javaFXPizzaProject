@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import lombok.AllArgsConstructor;
 import model.Basket;
 import model.PizzaList;
 import model.Role;
@@ -27,7 +26,7 @@ import java.util.stream.Collectors;
 import static utility.InMemoryDB.pizzaLists;
 
 public class PizzaPortalController {
-
+//tab1-----------------------
     //obiekty globalne
     private WindowService windowService;
     private PizzaPortalService pizzaPortalService;
@@ -64,66 +63,6 @@ public class PizzaPortalController {
     @FXML
     private Label lblPizzaDay;
 
-
-    private void clearOrder() {
-        List<PizzaList> pizzaLists = pizzaPortalService.clearPizzaOrder();
-        pizzas.clear();
-        pizzas.addAll(pizzaLists);
-        // wyczyszczenie tabelki
-        tblPizza.setItems(pizzas);    // aktualizacja tabelki
-        lblSum.setText("do zapłaty: 0.00 zł");
-    }
-
-    @FXML
-    void addToBasketAction(ActionEvent event) throws IOException {
-        if (pizzaPortalService.calculatePizzaOrder() > 0) {
-            pizzaPortalService.addOrderToBasket(LoginService.loggedUser.getLogin());
-            clearOrder();
-            WindowService.getAlertWindow(Alert.AlertType.INFORMATION,
-                    "Dodawanie do koszyka",
-                    "Złożono zamówienie",
-                    "Dziękujemy za złożenie zamówienia");
-            addDataToBasketsTable();
-        } else {
-            WindowService.getAlertWindow(Alert.AlertType.WARNING,
-                    "Dodawanie do koszyka",
-                    "Nie wybrano produktu",
-                    "Musisz wybrać jakiś produkt aby zrealizować zamówienia");
-
-        }
-
-
-    }
-
-    @FXML
-    void clearAction(ActionEvent event) {
-        clearOrder();
-    }
-
-    @FXML
-    void exitAction(ActionEvent event) {
-        //zamkniecie aplikacji
-        Platform.exit();
-    }
-
-    @FXML
-    void logoutAction(ActionEvent event) throws IOException {
-        //otwarcie nowego okna
-        windowService.createNewWindow("loginView", "Pizza JavaFX");
-        //zamkniecie aktualnego okna
-        windowService.closeWindow(lblLogin);
-        clearOrder();
-    }
-
-    @FXML
-    void selectPizzaAction(MouseEvent event) {
-        pizzaPortalService.selectPizza(tblPizza);
-        pizzas.clear();
-        pizzas.addAll(pizzaLists);
-        //wyczyszczenie tabelk
-        tblPizza.setItems(pizzas);      //aktualizacja tabelki
-    }
-
     //------------------------------------------------tab2
     @FXML
     private TableView<Basket> tblBasket;
@@ -140,6 +79,101 @@ public class PizzaPortalController {
     @FXML
     private Label lblBasketAmount;
 
+    //-------------------------TAB3------------
+    @FXML
+    private Tab tabBasketStatus;
+    @FXML
+    private TableView<Basket> tblOrders;
+    @FXML
+    private TableColumn<Basket, String> tcLogin;
+    @FXML
+    private TableColumn<Basket, Map> tcOrder;
+    @FXML
+    private TableColumn<Basket, Status> tcOrderStatus;
+    @FXML
+    private ComboBox<String> cbStatus;
+    @FXML
+    private Spinner<Integer> sTime;
+    @FXML
+    private CheckBox cInProgress;
+    @FXML
+    private CheckBox cNew;
+
+    @FXML
+    private Button btnConfirmButton;
+    private PizzaList pizzaOfDay;
+
+    @FXML
+    private Tab tabBasket;
+
+    //ok
+    private void clearOrder() {
+        List<PizzaList> pizzaLists = pizzaPortalService.clearPizzaOrder();
+        pizzas.clear();
+        pizzas.addAll(pizzaLists);
+        // wyczyszczenie tabelki
+        tblPizza.setItems(pizzas);    // aktualizacja tabelki
+        lblSum.setText("do zapłaty: 0.00 zł");
+    }
+
+    //ok
+    @FXML
+    void addToBasketAction(ActionEvent event) throws IOException {
+        if (pizzaPortalService.calculatePizzaOrder() > 0) {
+            pizzaPortalService.addOrderToBasket(LoginService.loggedUser.getLogin());
+            clearOrder();
+            WindowService.getAlertWindow(Alert.AlertType.INFORMATION,
+                    "Dodawanie do koszyka",
+                    "Złożono zamówienie",
+                    "Dziękujemy za złożenie zamówienia");
+            addDataToBasketsTable();
+            addDataToOrderTable();
+        } else {
+            WindowService.getAlertWindow(Alert.AlertType.WARNING,
+                    "Dodawanie do koszyka",
+                    "Nie wybrano produktu",
+                    "Musisz wybrać jakiś produkt aby zrealizować zamówienia");
+
+        }
+
+
+    }
+//ok
+    @FXML
+    void clearAction(ActionEvent event) {
+        clearOrder();
+    }
+//ok
+    @FXML
+    void exitAction(ActionEvent event) {
+        //zamkniecie aplikacji
+        Platform.exit();
+    }
+
+    //ok
+    @FXML
+    void logoutAction(ActionEvent event) throws IOException {
+        //otwarcie nowego okna
+        windowService.createNewWindow("loginView", "Pizza JavaFX");
+        //zamkniecie aktualnego okna
+        windowService.closeWindow(lblLogin);
+        clearOrder();
+    }
+
+    //ok
+    @FXML
+    void selectPizzaAction(MouseEvent event) {
+        List<PizzaList> pizzaLists = pizzaPortalService.selectPizza(tblPizza);
+        pizzas.clear();
+        pizzas.addAll(pizzaLists);
+        //wyczyszczenie tabelk
+        tblPizza.setItems(pizzas);      //aktualizacja tabelki
+        lblSum.setText(String.format("do zapłaty: %.2f zł", pizzaPortalService.calculatePizzaOrder()));
+    }
+
+
+//tab2------------------------------
+    //ok
     @FXML
     void showDetailsAction(MouseEvent event) {
         //zaznaczamy rekord w tabelce i pobieramy z niego obiekt klasy Basket
@@ -156,6 +190,7 @@ public class PizzaPortalController {
     }
 
     //metoda wprowadajaca dane z pliku baskets.csv do koszyka ale dotyczaca jedynie zalogowanego uzytkownika
+    //ok
     private List<Basket> getUserBasket(String login) {
         List<Basket> userBaskets = InMemoryDB.baskets.stream()
                 .filter(basket -> basket.getUserLogin().equals(login))
@@ -165,8 +200,10 @@ public class PizzaPortalController {
     }
 
     //metoda do konfiguracji kolumn w tblBasket i wprowadzenia danych
+    //ok
     private void addDataToBasketsTable() {
         // konfiguracja wartości przekazywanych do kolumn z modelu
+        tcLogin.setCellValueFactory(new PropertyValueFactory<>("userLogin"));
         tcBasket.setCellValueFactory(new PropertyValueFactory<>("order"));
         tcStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         //formatowanie zawartosci tabeli
@@ -198,36 +235,16 @@ public class PizzaPortalController {
             }
         });
         // wprowadzenie danych do tabeli z listy baskets
-        tblBasket.setItems(FXCollections.observableArrayList(
-                getUserBasket(LoginService.loggedUser.getLogin())
-        ));
+        tblOrders.setItems(FXCollections.observableArrayList(InMemoryDB.baskets));
+
 
     }
 
-    //-------------------------------------------------/tab2
-    //-------------------------TAB3------------
-    @FXML
-    private Tab tabBasketStatus;
-    @FXML
-    private TableView<Basket> tblOrders;
-    @FXML
-    private TableColumn<Basket, String> tcLogin;
-    @FXML
-    private TableColumn<Basket, Map> tcOrder;
-    @FXML
-    private TableColumn<Basket, Status> tcOrderStatus;
-    @FXML
-    private ComboBox<String> cbStatus;
-    @FXML
-    private Spinner<Integer> sTime;
-    @FXML
-    private CheckBox cInProgress;
-    @FXML
-    private CheckBox cNew;
-    @FXML
-    private Button btnConfirmButton;
 
+
+//tab3-------------------------
     //metoda dodajaca dane do tabelki
+    //OK
     private void addDataToOrderTable() {
         //konfiguracja kolumn
         tcLogin.setCellValueFactory(new PropertyValueFactory<>("userLogin"));
@@ -270,12 +287,13 @@ public class PizzaPortalController {
 
     private Basket basket;
 
+    //ok
     @FXML
     void confirmStatusAction(ActionEvent event) throws IOException {
         //pobranie statusu z listy rozwijanej
         String statusName = cbStatus.getValue();
         //zmiana statusu wybranego obiektu na wybrany z listy rozwijanej
-        InMemoryDB.baskets.forEach(basket1 ->
+        InMemoryDB.baskets.stream().forEach(basket1 ->
         {
             if (basket1.equals(basket)) {
                 basket1.setStatus(Arrays.stream(Status.values())
@@ -283,7 +301,6 @@ public class PizzaPortalController {
                         .findAny().get());
             }
         });
-        System.out.println(InMemoryDB.baskets);
         //okno alertowe potwierdzajace zmiane statusu
         WindowService.getAlertWindow(Alert.AlertType.INFORMATION,
                 "Zmiana statusu zamówienia",
@@ -294,11 +311,10 @@ public class PizzaPortalController {
         addDataToBasketsTable();
         //aktualizacja pliku
         FileService.updateBasket();
-        //auto-mailing
-//        MailingService.sendEmail("michal_kruczkowski@o2.pl", "Test", "Test");
 
     }
 
+    //ok
     private void selectCheckBox() {
         List<Basket> filteredBaskets = InMemoryDB.baskets.stream()
                 .filter(b -> !b.getStatus().equals(Status.DONE))
@@ -322,6 +338,7 @@ public class PizzaPortalController {
         } else {
             tblOrders.setItems(FXCollections.observableArrayList(filteredBaskets));
         }
+
     }
 
     @FXML
@@ -334,56 +351,25 @@ public class PizzaPortalController {
         selectCheckBox();
     }
 
+    //ok
     @FXML
     void selectOrderAction(MouseEvent event) {
-
-        Basket basket = tblOrders.getSelectionModel().getSelectedItem();
+        basket = tblOrders.getSelectionModel().getSelectedItem();
         if (basket != null) {
             cbStatus.setDisable(false);
-            sTime.setDisable(false);
             btnConfirmButton.setDisable(false);
             //pobranie statusu i ustawienie go na combobox
             Status status = basket.getStatus();
             cbStatus.setValue(status.getStatusName());
         } else {
             cbStatus.setDisable(true);
-            sTime.setDisable(true);
             btnConfirmButton.setDisable(true);
         }
 
     }
-
-
-    //TAB3 ------------------------------------------------------------TAB3
-
-    //===========================================
-    private PizzaList pizzaOfDay;
-
-    @FXML
-    private Tab tabBasket;
-
-//    ==========================================
-
-    @FXML
-    private ProgressBar pBar;
-
+    //OK
     public void initialize() throws IOException, InterruptedException {
-//        Thread thread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                for (int i = 0; i <= 100; i++) {
-//                    try {
-//                        Thread.currentThread().sleep(100);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                    double range = (double) i / 100;
-//                    pBar.setProgress(range);
-//                }
-//                Platform.exit();
-//            }
-//        });
-//        thread.start();
+
     //zarzadzanie widocznoscia w tabach w zaleznosci od uprawnien uzytkownika
 
     Set<Role> roles = LoginService.loggedUser.getRoles();
@@ -396,10 +382,12 @@ public class PizzaPortalController {
     }
 
     //wypisanie loginu zalogowanego uzytkownika
-        lblLogin.setText("Zalogowano: " + LoginService.loggedUser.getLogin());
 
+    lblLogin.setText("Zalogowano: " + LoginService.loggedUser.getLogin());
     pizzaPortalService = new PizzaPortalService();
+
     PizzaPortalService.mapPizzaToPizzaList();
+    pizzas.clear();
     pizzas.addAll(InMemoryDB.pizzaLists);
     windowService = new WindowService();
     pizzaOfDay = pizzaPortalService.generatePizzaOfDay();
@@ -428,16 +416,15 @@ public class PizzaPortalController {
                 }
             }
         });
-
         // wprowadzenie wartości do tbl
         tblPizza.setItems(pizzas);
         //TAB2  - basket-------------
         addDataToBasketsTable();
         //TAB3-------------------------
         addDataToOrderTable();
-        cbStatus.setItems(FXCollections.observableArrayList(Arrays.stream(Status.values()).map(Status::getStatusName).collect(Collectors.toList())));
-        //wprowadzenie danych do spinnera
-        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(15, 150, 30, 5);
-        sTime.setValueFactory(valueFactory);
+        //wprowadzenie damych do combobox
+        cbStatus.setItems(FXCollections.observableArrayList(
+                Arrays.stream(Status.values()).map(Status::getStatusName).collect(Collectors.toList())));
+
     }
 }

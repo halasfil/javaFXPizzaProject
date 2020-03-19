@@ -81,15 +81,6 @@ public class PizzaPortalService {
                 .filter(pizza -> pizza.getQuantity() > 0)
                 .collect(Collectors.toList());
         Double toPay = calculatePizzaOrder();
-//        System.out.println(String.format("%s; %s; %.2f; %s",
-//                userLogin,
-//                pizzaLists.stream()
-//                        .map(pizzaList -> pizzaList.getName() + " : " + pizzaList.getQuantity())
-//                        .collect(Collectors.joining(", ")),
-//                toPay,
-//                "nowe zamówienie"
-//                )
-//        );
 
         Map<String, Integer> order = new HashMap<>();
         for (PizzaList pizzaList : pizzaLists){
